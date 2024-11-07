@@ -1,9 +1,17 @@
 part of 'image_slide_widget.dart';
 
 class ImageSlideShow extends StatefulWidget {
-  const ImageSlideShow({super.key, required this.child, required this.animationId, this.scrollController});
+  const ImageSlideShow({
+    super.key,
+    required this.child,
+    required this.animationId,
+    this.scrollController,
+    this.overlayWidget,
+  });
+
   final String animationId;
   final Widget child;
+  final Stack? overlayWidget;
   final ScrollController? scrollController;
 
   static const int shortDuration = 50;
@@ -29,15 +37,24 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
 
   double? initScrollPosition;
 
+  ValueNotifier<bool> showOverlay = ValueNotifier(false);
+  bool? overlayTemp;
+  showOverLay([bool? isShow]){
+    showOverlay.value = isShow ?? !showOverlay.value;
+  }
+
   onStartDrag(DragDownDetails details) {
+
     durationAnimation = ImageSlideShow.shortDuration;
     initDragPosition = Offset(
       details.localPosition.dx,
       details.localPosition.dy,
     );
+    overlayTemp = showOverlay.value;
   }
 
   onUpdateDrag(DragUpdateDetails details) {
+    showOverLay(false);
     updateDragPosition = Offset(
       details.localPosition.dx,
       details.localPosition.dy,
@@ -62,9 +79,11 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
       initDragPosition = null;
       updateDragPosition = null;
     }
+
+    showOverLay(overlayTemp);
   }
 
-  scrollParentToDragPositon() {
+  scrollParentToDragPosition() {
     if (widget.scrollController != null && initDragPosition != null && updateDragPosition != null) {
       initScrollPosition ??= widget.scrollController!.offset;
       double spaceDrag = initDragPosition!.dy - updateDragPosition!.dy;
@@ -89,6 +108,7 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: showOverLay,
       onPanDown: onStartDrag,
       onPanUpdate: onUpdateDrag,
       onPanEnd: onEndDrag,
@@ -109,7 +129,7 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
           ValueListenableBuilder(
             valueListenable: widgetPosition,
             builder: (context, position, child) {
-              scrollParentToDragPositon();
+              scrollParentToDragPosition();
 
               return AnimatedPositioned(
                 duration: Duration(milliseconds: durationAnimation),
@@ -131,6 +151,18 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
               );
             },
           ),
+          if(widget.overlayWidget != null)
+            SafeArea(
+              child: ValueListenableBuilder(
+                  valueListenable: showOverlay,
+                  builder: (context, isShow, child) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: ImageSlideShow.longDuration),
+                    child: isShow ? widget.overlayWidget! : null,
+                  );
+                }
+              ),
+            )
         ],
       ),
     );

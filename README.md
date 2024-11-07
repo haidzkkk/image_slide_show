@@ -1,6 +1,6 @@
 # image_slide_show
 
-A simple show image widget for Flutter.
+A simple show image widget for Flutter. For this Widget it will to help you show image like other social media app.
 
 ## Installation
 Add `image_slide_show` as a dependency in your pubspec.yaml file.

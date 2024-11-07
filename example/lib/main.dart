@@ -98,6 +98,14 @@ class _HeroImageScrollScreenState extends State<HeroImageScrollScreen> {
                   decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: ImageSlideWidget(
                     scrollController: scrollController,
+                    overlayWidget: const Stack(
+                      children: [
+                        Positioned(
+                            top: 10,
+                            right: 10,
+                            child: Icon(Icons.more_vert, size: 30, color: Colors.white,))
+                      ],
+                    ),
                     child: Image.network(
                       imageUrls[Random().nextInt(imageUrls.length)],
                       fit: BoxFit.cover,

@@ -1,11 +1,18 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 part 'image_slide_show_view.dart';
 
 class ImageSlideWidget extends StatefulWidget {
-  const ImageSlideWidget({super.key, required this.child, this.scrollController});
+  const ImageSlideWidget({
+    super.key,
+    required this.child,
+    this.scrollController,
+    this.overlayWidget,
+  });
   final ScrollController? scrollController;
   final Widget child;
+  final Stack? overlayWidget;
   @override
   State<ImageSlideWidget> createState() => _ImageSlideWidgetState();
 }
@@ -42,6 +49,7 @@ class _ImageSlideWidgetState extends State<ImageSlideWidget> {
         pageBuilder: (BuildContext context, _, __) => ImageSlideShow(
           scrollController: widget.scrollController,
           animationId: id,
+          overlayWidget: widget.overlayWidget,
           child: widget.child,
         ),
       ),
