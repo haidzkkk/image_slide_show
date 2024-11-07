@@ -7,12 +7,14 @@ class ImageSlideShow extends StatefulWidget {
     required this.animationId,
     this.scrollController,
     this.overlayWidget,
+    this.initShowOverlay,
   });
 
   final String animationId;
   final Widget child;
   final Stack? overlayWidget;
   final ScrollController? scrollController;
+  final bool? initShowOverlay;
 
   static const int shortDuration = 50;
   static const int longDuration = 300;
@@ -37,7 +39,7 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
 
   double? initScrollPosition;
 
-  ValueNotifier<bool> showOverlay = ValueNotifier(false);
+  late ValueNotifier<bool> showOverlay = ValueNotifier(widget.initShowOverlay ?? false);
   bool? overlayTemp;
   showOverLay([bool? isShow]){
     showOverlay.value = isShow ?? !showOverlay.value;
@@ -107,63 +109,66 @@ class _ImageSlideShowState extends State<ImageSlideShow> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: showOverLay,
-      onPanDown: onStartDrag,
-      onPanUpdate: onUpdateDrag,
-      onPanEnd: onEndDrag,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: ValueListenableBuilder(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: GestureDetector(
+        onTap: showOverLay,
+        onPanDown: onStartDrag,
+        onPanUpdate: onUpdateDrag,
+        onPanEnd: onEndDrag,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: ValueListenableBuilder(
+                valueListenable: widgetPosition,
+                builder: (context, position, child) {
+                  bool isOpacity = initWidgetPosition.dy != position?.dy || initWidgetPosition.dy == 0;
+                  return AnimatedOpacity(
+                      duration: const Duration(milliseconds: ImageSlideShow.longDuration),
+                      opacity: isOpacity ? 0.5 : 1,
+                      child: const Material(color: Colors.black));
+                },
+              ),
+            ),
+            ValueListenableBuilder(
               valueListenable: widgetPosition,
               builder: (context, position, child) {
-                bool isOpacity = initWidgetPosition.dy != position?.dy || initWidgetPosition.dy == 0;
-                return AnimatedOpacity(
-                    duration: const Duration(milliseconds: ImageSlideShow.longDuration),
-                    opacity: isOpacity ? 0.5 : 1,
-                    child: const Material(color: Colors.black));
+                scrollParentToDragPosition();
+
+                return AnimatedPositioned(
+                  duration: Duration(milliseconds: durationAnimation),
+                  left: position?.dx,
+                  top: position?.dy,
+                  child: ValueListenableBuilder(
+                      valueListenable: sizeChild,
+                      builder: (context, size, child) {
+                        return SizedBox(
+                          key: childKey,
+                          height: size?.height,
+                          width: size?.width,
+                          child: Hero(
+                            tag: widget.animationId,
+                            child: widget.child,
+                          ),
+                        );
+                      }),
+                );
               },
             ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: widgetPosition,
-            builder: (context, position, child) {
-              scrollParentToDragPosition();
-
-              return AnimatedPositioned(
-                duration: Duration(milliseconds: durationAnimation),
-                left: position?.dx,
-                top: position?.dy,
+            if(widget.overlayWidget != null)
+              SafeArea(
                 child: ValueListenableBuilder(
-                    valueListenable: sizeChild,
-                    builder: (context, size, child) {
-                      return SizedBox(
-                        key: childKey,
-                        height: size?.height,
-                        width: size?.width,
-                        child: Hero(
-                          tag: widget.animationId,
-                          child: widget.child,
-                        ),
-                      );
-                    }),
-              );
-            },
-          ),
-          if(widget.overlayWidget != null)
-            SafeArea(
-              child: ValueListenableBuilder(
-                  valueListenable: showOverlay,
-                  builder: (context, isShow, child) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: ImageSlideShow.longDuration),
-                    child: isShow ? widget.overlayWidget! : null,
-                  );
-                }
-              ),
-            )
-        ],
+                    valueListenable: showOverlay,
+                    builder: (context, isShow, child) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: ImageSlideShow.longDuration),
+                      child: isShow ? widget.overlayWidget! : null,
+                    );
+                  }
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
