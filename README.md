@@ -28,11 +28,11 @@ ImageSlideWidget(
 )
 ```
 
-Read more about the `ImageSlideWidget` widget [here](https://github.com/haidzkkk/image_slide_show/blob/feature/readme/lib/image_slide_widget.dart).
+Read more about the `ImageSlideWidget` widget [here](https://github.com/haidzkkk/image_slide_show/blob/main/lib/image_slide_widget.dart).
 
 ## Example
 
-Read more about the example to use the `ImageSlideWidget` and `ImageSlideShow` widget [here](https://github.com/haidzkkk/image_slide_show/blob/feature/readme/example/lib/main.dart).
+Read more about the example to use the `ImageSlideWidget` and `ImageSlideShow` widget [here](https://github.com/haidzkkk/image_slide_show/blob/main/example/lib/main.dart).
 
 <video src="https://github.com/user-attachments/assets/fba0cb33-82af-4149-ab98-1d2051e830a4" width="300" autoplay
 loop>
