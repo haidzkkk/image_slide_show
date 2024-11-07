@@ -1,16 +1,38 @@
 # image_slide_show
 
-A new Flutter project.
+A simple show image widget for Flutter.
 
-## Getting Started
+## Installation
+Add `image_slide_show` as a dependency in your pubspec.yaml file.
+```yaml
+  image_slide_show:
+    git: https://github.com/haidzkkk/image_slide_show
+```
 
-This project is a starting point for a Flutter application.
+Import Photo View:
+```dart
+import 'package:image_slide_show/image_slide_show.dart';
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Gallery
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To show image, use `ImageSlideWidget`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+ImageSlideWidget(
+    scrollController: scrollController,
+    child: Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+    ),
+)
+```
+
+Read more about the `ImageSlideWidget` widget [here](https://github.com/haidzkkk/image_slide_show/blob/feature/readme/lib/image_slide_widget.dart).
+
+## Example
+
+Read more about the example to use the `ImageSlideWidget` and `ImageSlideShow` widget [here](https://github.com/haidzkkk/image_slide_show/blob/feature/readme/example/lib/main.dart).
+
+<video src="https://github.com/user-attachments/assets/fba0cb33-82af-4149-ab98-1d2051e830a4" width="300" autoplay
+loop>

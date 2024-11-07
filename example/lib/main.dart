@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class HeroImageScrollScreen extends StatefulWidget {
   const HeroImageScrollScreen({super.key});
 
