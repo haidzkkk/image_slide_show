@@ -2,15 +2,15 @@
 import 'package:flutter/material.dart';
 part 'image_slide_show_view.dart';
 
-class ImageWidget extends StatefulWidget {
-  const ImageWidget({super.key, required this.child, this.scrollController});
+class ImageSlideWidget extends StatefulWidget {
+  const ImageSlideWidget({super.key, required this.child, this.scrollController});
   final ScrollController? scrollController;
   final Widget child;
   @override
-  State<ImageWidget> createState() => _ImageWidgetState();
+  State<ImageSlideWidget> createState() => _ImageSlideWidgetState();
 }
 
-class _ImageWidgetState extends State<ImageWidget> {
+class _ImageSlideWidgetState extends State<ImageSlideWidget> {
   final GlobalKey itemKey = GlobalKey();
   String id = "${DateTime.now().microsecondsSinceEpoch}-image-slide";
 
