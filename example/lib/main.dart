@@ -98,12 +98,21 @@ class _HeroImageScrollScreenState extends State<HeroImageScrollScreen> {
                   decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: ImageSlideWidget(
                     scrollController: scrollController,
-                    overlayWidget: const Stack(
+                    initShowOverlay: true,
+                    overlayWidget: Stack(
                       children: [
                         Positioned(
-                            top: 10,
-                            right: 10,
-                            child: Icon(Icons.more_vert, size: 30, color: Colors.white,))
+                          top: 10,
+                          right: 10,
+                          child: DropdownButton<String>(
+                            items: const [
+                              DropdownMenuItem(child: Text("Action 1"), value: "1",),
+                              DropdownMenuItem(child: Text("Action 2"), value: "2",),
+                              DropdownMenuItem(child: Text("Action 3"), value: "3",),
+                            ],
+                            onChanged: (String? value) {  },
+                          ),
+                        )
                       ],
                     ),
                     child: Image.network(

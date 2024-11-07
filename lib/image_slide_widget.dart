@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 part 'image_slide_show_view.dart';
 
@@ -9,10 +7,12 @@ class ImageSlideWidget extends StatefulWidget {
     required this.child,
     this.scrollController,
     this.overlayWidget,
+    this.initShowOverlay,
   });
   final ScrollController? scrollController;
   final Widget child;
   final Stack? overlayWidget;
+  final bool? initShowOverlay;
   @override
   State<ImageSlideWidget> createState() => _ImageSlideWidgetState();
 }
@@ -50,6 +50,7 @@ class _ImageSlideWidgetState extends State<ImageSlideWidget> {
           scrollController: widget.scrollController,
           animationId: id,
           overlayWidget: widget.overlayWidget,
+          initShowOverlay: widget.initShowOverlay,
           child: widget.child,
         ),
       ),
