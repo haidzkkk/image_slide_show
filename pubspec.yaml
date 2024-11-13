@@ -1,7 +1,7 @@
 name: image_slide_show
 description: "A Flutter project provide show image."
 publish_to: null
-version: 1.0.5
+version: 1.1.0
 homepage: https://github.com/haidzkkk/image_slide_show
 
 environment:

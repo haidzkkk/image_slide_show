@@ -1,0 +1,7 @@
+to update package in pubdev
+
+update timeline in CHANGELOG
+
+in pubspec.yaml set higher version than current version
+
+-> dart pub publish
